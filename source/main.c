@@ -58,8 +58,13 @@ static void scan_directory(void) {
         char path[PATH_SIZE];
         if (snprintf(path, sizeof(path), "%s%s%s", cwd, strlen(cwd) > 6 ? "/" : "", de->d_name) >= (int)sizeof(path)) continue;
         struct stat info;
-        if (stat(path, &info) != 0) continue;
-        bool folder = S_ISDIR(info.st_mode);
+        bool folder = false;
+#ifdef DT_DIR
+        folder = de->d_type == DT_DIR;
+#endif
+        if (!folder && stat(path, &info) == 0) folder = S_ISDIR(info.st_mode);
+        // Some SD drivers cannot stat a root entry even when readdir found it.
+        // Keep supported images visible; selection and preview validate them.
         if (!folder && !accepted(de->d_name)) continue;
         Entry *item = &entries[count++];
         snprintf(item->name, sizeof(item->name), "%s", de->d_name);
@@ -99,24 +104,30 @@ static bool image_info(const char *path, int *w, int *h) {
     return *w > 0 && *h > 0 && *w <= 4096 && *h <= 4096 && (long long)*w * *h <= 2400000;
 }
 
-static void sample_image(const stbi_uc *src, int sw, int sh, int dw, int dh, int x, int y, int *r, int *g, int *b) {
-    // Center crop fills the display. Fit mode preserves the entire input with dark margins.
-    float sx, sy;
-    if (!fit_mode) {
-        float scale = (float)sw / dw > (float)sh / dh ? (float)sh / dh : (float)sw / dw;
-        sx = (sw - dw * scale) * 0.5f + (x + .5f) * scale;
-        sy = (sh - dh * scale) * 0.5f + (y + .5f) * scale;
-    } else {
-        float scale = (float)sw / dw > (float)sh / dh ? (float)sw / dw : (float)sh / dh;
-        sx = (x + .5f - dw * .5f) * scale + sw * .5f;
-        sy = (y + .5f - dh * .5f) * scale + sh * .5f;
-        if (sx < 0 || sy < 0 || sx >= sw || sy >= sh) { *r = 6; *g = 11; *b = 39; return; }
+typedef struct { int x[TEX_W], y[TEX_H]; } SampleMap;
+
+static void build_axis(int *axis, int length, int source_length, int display_length, int64_t scale) {
+    for (int i = 0; i < length; ++i) {
+        int64_t fixed = ((int64_t)source_length << 15)
+                      + ((int64_t)(2 * i + 1 - display_length) * scale) / 2;
+        int pixel = (int)(fixed >> 16);
+        if (fit_mode && (pixel < 0 || pixel >= source_length)) axis[i] = -1;
+        else axis[i] = pixel < 0 ? 0 : pixel >= source_length ? source_length - 1 : pixel;
     }
-    int ix = (int)sx, iy = (int)sy;
-    if (ix < 0) ix = 0;
-    if (ix >= sw) ix = sw - 1;
-    if (iy < 0) iy = 0;
-    if (iy >= sh) iy = sh - 1;
+}
+
+static void build_sample_map(SampleMap *map, int sw, int sh, int dw, int dh, int width, int height) {
+    // 16.16 coordinates are prepared once per axis instead of dividing in every pixel.
+    int64_t sx = ((int64_t)sw << 16) / dw;
+    int64_t sy = ((int64_t)sh << 16) / dh;
+    int64_t scale = fit_mode ? (sx > sy ? sx : sy) : (sx < sy ? sx : sy);
+    build_axis(map->x, width, sw, dw, scale);
+    build_axis(map->y, height, sh, dh, scale);
+}
+
+static inline void sample_image(const stbi_uc *src, int sw, const SampleMap *map, int x, int y, int *r, int *g, int *b) {
+    int ix = map->x[x], iy = map->y[y];
+    if (ix < 0 || iy < 0) { *r = 6; *g = 11; *b = 39; return; }
     const stbi_uc *p = src + ((size_t)iy * sw + ix) * 4;
     int alpha = p[3];
     *r = (p[0] * alpha + 6 * (255 - alpha)) / 255;
@@ -124,20 +135,24 @@ static void sample_image(const stbi_uc *src, int sw, int sh, int dw, int dh, int
     *b = (p[2] * alpha + 39 * (255 - alpha)) / 255;
 }
 
-static void show_top(const char *path, int width) {
+static bool show_top(const char *path, int width) {
     int sw, sh, c;
     stbi_uc *src = stbi_load(path, &sw, &sh, &c, 4);
-    if (!src) return;
+    if (!src) return false;
+    SampleMap map;
+    build_sample_map(&map, sw, sh, width, 240, width, 240);
     u8 *fb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
     for (int x = 0; x < 400; ++x) for (int y = 0; y < 240; ++y) {
         int r, g, b;
-        if (x < width) sample_image(src, sw, sh, width, 240, x, y, &r, &g, &b);
+        int display_x = x - (400 - width) / 2;
+        if (display_x >= 0 && display_x < width) sample_image(src, sw, &map, display_x, y, &r, &g, &b);
         else { r = 6; g = 11; b = 39; }
         size_t p = ((size_t)x * 240 + (239 - y)) * 3;
         fb[p] = b; fb[p+1] = g; fb[p+2] = r;
     }
     stbi_image_free(src);
     gfxFlushBuffers();
+    return true;
 }
 
 static void put_u32(u8 *p, u32 v) {
@@ -148,12 +163,14 @@ static bool fill_texture(u8 *dest, const char *path, int display_w) {
     int sw, sh, c;
     stbi_uc *src = stbi_load(path, &sw, &sh, &c, 4);
     if (!src) return false;
+    SampleMap map;
+    build_sample_map(&map, sw, sh, display_w, 240, display_w, 240);
     u16 *pixels = (u16 *)dest;
     for (int y = 0; y < TEX_H; ++y) for (int x = 0; x < TEX_W; ++x) {
         int r, g, b;
         int px = x < display_w ? x : display_w - 1;
         int py = y < 240 ? y : 239;
-        sample_image(src, sw, sh, display_w, 240, px, py, &r, &g, &b);
+        sample_image(src, sw, &map, px, py, &r, &g, &b);
         unsigned tile = (((y >> 3) * (TEX_W >> 3) + (x >> 3)) << 6)
             + ((x & 1) | ((y & 1) << 1) | ((x & 2) << 1) | ((y & 2) << 2) | ((x & 4) << 2) | ((y & 4) << 3));
         pixels[tile] = (u16)(((r & 0xf8) << 8) | ((g & 0xfc) << 3) | (b >> 3));
@@ -206,7 +223,6 @@ static bool automatic_pair(void) {
     if (!valid_bgm(chosen[2])) chosen[2][0] = 0;
     phase = 3;
     message[0] = 0;
-    show_top(chosen[1], 320);
     return true;
 }
 
@@ -281,7 +297,7 @@ static const char *short_name(const char *path) {
 
 static void draw_ui(void) {
     consoleClear();
-    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1\n");
+    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1.1\n");
     printf(" 100%% sur la console / old 3DS\n");
     printf("----------------------------------------\n");
     if (phase < 3) {
@@ -295,7 +311,7 @@ static void draw_ui(void) {
             printf("%c %c %.35s\n", i == cursor ? '>' : ' ', entries[i].directory ? '+' : ' ', entries[i].name);
         if (!count) printf(" (aucun fichier compatible ici)\n");
         printf("\x1b[24;0H%.39s", message);
-        printf("\x1b[26;0HA choisir/ouvrir  B retour  START quitter\n");
+        printf("\x1b[26;0HA choisir  Y apercu  B retour\n");
         if (phase == 0) printf("X detection auto: haut/bas + bgm\n");
         if (phase == 2) printf("X passer la musique\n");
     } else {
@@ -305,7 +321,7 @@ static void draw_ui(void) {
         printf(" BGM : %.33s\n", chosen[2][0] ? short_name(chosen[2]) : "sans musique");
         printf(" Mode: %s\n", fit_mode ? "image entiere" : "recadrage auto");
         printf("\n %s\n", message);
-        if (phase == 3) printf("\n A creer   Y changer cadrage   B retour\n");
+        if (phase == 3) printf("\n A creer  X cadrage  Y apercu bas\n");
         else printf("\n A nouveau theme   START quitter\n");
     }
 }
@@ -336,6 +352,14 @@ int main(void) {
             if (keys & KEY_B) { parent_directory(); redraw = true; }
             if ((keys & KEY_X) && phase == 0) { automatic_pair(); redraw = true; }
             if ((keys & KEY_X) && phase == 2) { chosen[2][0] = 0; phase = 3; redraw = true; }
+            if ((keys & KEY_Y) && phase < 2 && count && !entries[cursor].directory) {
+                char path[PATH_SIZE]; int width, height;
+                if (full_path(path, sizeof(path), entries[cursor].name) &&
+                    image_info(path, &width, &height) && show_top(path, phase == 0 ? 400 : 320))
+                    strcpy(message, "Apercu: A pour choisir");
+                else strcpy(message, "Apercu impossible");
+                redraw = true;
+            }
             if ((keys & KEY_A) && phase < 3 && count) {
                 if (entries[cursor].directory) enter_directory(entries[cursor].name);
                 else {
@@ -345,7 +369,6 @@ int main(void) {
                         strcpy(message, "Chemin trop long");
                     } else if (phase == 2 || image_info(path, &width, &height)) {
                         strcpy(chosen[phase], path);
-                        if (phase < 2) show_top(path, phase == 0 ? 400 : 320);
                         phase++;
                         scan_directory();
                         message[0] = 0;
@@ -355,7 +378,8 @@ int main(void) {
             }
         } else if (phase == 3) {
             if (keys & KEY_B) { phase = 2; scan_directory(); redraw = true; }
-            if (keys & KEY_Y) { fit_mode = !fit_mode; show_top(chosen[1], 320); redraw = true; }
+            if (keys & KEY_X) { fit_mode = !fit_mode; redraw = true; }
+            if (keys & KEY_Y) { if (!show_top(chosen[1], 320)) strcpy(message, "Apercu impossible"); redraw = true; }
             if (keys & KEY_A) { strcpy(message, "Generation en cours..."); draw_ui(); if (generate_theme()) phase = 4; redraw = true; }
         } else if (keys & KEY_A) {
             memset(chosen, 0, sizeof(chosen)); phase = 0; strcpy(cwd, "sdmc:/");
