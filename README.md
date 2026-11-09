@@ -2,7 +2,7 @@
 
 Application homebrew Nintendo 3DS (y compris old 3DS) pour fabriquer un thème du menu HOME directement sur la console. Le code a été généré avec Codex.
 
-Version 0.1.3 : chaque écran se règle dans une étape distincte. L/R zoome et dézoome, la croix choisit la partie visible, et l'aperçu est affiché immédiatement. Le thème exporté inclut un `preview.png` pour Anemone3DS. Les musiques OGG et MP3 peuvent être converties directement sur la console.
+Version 0.1.4 : chaque écran se règle dans une étape distincte. L/R zoome et dézoome, la croix choisit la partie visible, et l'aperçu est affiché immédiatement. Le zoom reprend progressivement après « image entière ». Le thème exporté inclut un `preview.png` pour Anemone3DS. Les musiques OGG et MP3 peuvent être converties directement sur la console.
 
 ## Installation CIA
 
@@ -42,7 +42,7 @@ Pour produire le CIA, installer [makerom](https://github.com/3DSGuy/Project_CTR/
 
 ```sh
 bannertool makebanner -i banner.png -a banner.wav -o banner.bnr
-makerom -f cia -o shield_theme_maker.cia -DAPP_ENCRYPTED=false -rsf shield.rsf -target t -ver 4 -exefslogo -elf shield_theme_maker.elf -icon shield_theme_maker.smdh -banner banner.bnr
+makerom -f cia -o shield_theme_maker.cia -DAPP_ENCRYPTED=false -rsf shield.rsf -target t -ver 5 -exefslogo -elf shield_theme_maker.elf -icon shield_theme_maker.smdh -banner banner.bnr
 ```
 
 `shield.rsf` configure le mode Legacy compatible old 3DS. La bannière Homebrew Launcher est `shield_theme_maker-banner-fullscreen.png`.
