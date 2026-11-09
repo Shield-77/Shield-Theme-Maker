@@ -111,6 +111,18 @@ static bool image_info(const char *path, int *w, int *h) {
     return *w > 0 && *h > 0 && *w <= 4096 && *h <= 4096 && (long long)*w * *h <= 2400000;
 }
 
+static int whole_image_zoom(int image_index) {
+    int sw, sh;
+    if (!image_info(chosen[image_index], &sw, &sh)) return 100;
+    int dw = image_index == 0 ? 412 : 320;
+    int64_t sx = ((int64_t)sw << 16) / dw;
+    int64_t sy = ((int64_t)sh << 16) / 240;
+    int64_t cover = sx < sy ? sx : sy;
+    int64_t contain = sx > sy ? sx : sy;
+    int zoom = (int)(cover * 100 / contain);
+    return zoom < 10 ? 10 : zoom;
+}
+
 typedef struct { int index[4]; unsigned weight[4], count; } AxisSample;
 typedef struct { AxisSample x[TEX_W], y[TEX_H]; } SampleMap;
 
@@ -427,7 +439,7 @@ static const char *short_name(const char *path) {
 
 static void draw_ui(void) {
     consoleClear();
-    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1.3\n");
+    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1.4\n");
     printf(" 100%% sur la console / old 3DS\n");
     printf("----------------------------------------\n");
     if (phase < 3) {
@@ -535,7 +547,11 @@ int main(void) {
                 else phase = 3;
                 redraw = true;
             } else {
-                if (keys & KEY_X) { fit_mode[edit_target] ^= 1; redraw = true; }
+                if (keys & KEY_X) {
+                    fit_mode[edit_target] ^= 1;
+                    zoom_percent[edit_target] = fit_mode[edit_target] ? whole_image_zoom(edit_target) : 100;
+                    redraw = true;
+                }
                 if (keys & KEY_L) {
                     fit_mode[edit_target] = 0;
                     if (zoom_percent[edit_target] > 10) zoom_percent[edit_target] -= 10;
