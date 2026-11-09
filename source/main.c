@@ -27,6 +27,9 @@
 typedef struct { char name[256]; bool directory; } Entry;
 static Entry entries[MAX_ENTRIES];
 static int count, cursor, scroll, phase, fit_mode;
+static int focus_x[2] = {50, 50}, focus_y[2] = {50, 50}, edit_target;
+static stbi_uc *preview_pixels;
+static int preview_width, preview_height, preview_target = -1;
 static char cwd[PATH_SIZE] = "sdmc:/";
 static char chosen[3][PATH_SIZE];
 static char message[128] = "";
@@ -104,67 +107,142 @@ static bool image_info(const char *path, int *w, int *h) {
     return *w > 0 && *h > 0 && *w <= 4096 && *h <= 4096 && (long long)*w * *h <= 2400000;
 }
 
-typedef struct { int x[TEX_W], y[TEX_H]; } SampleMap;
+typedef struct { int first, second; unsigned blend; } AxisSample;
+typedef struct { AxisSample x[TEX_W], y[TEX_H]; } SampleMap;
 
-static void build_axis(int *axis, int length, int source_length, int display_length, int64_t scale) {
+static int clamp_pixel(int pixel, int length) {
+    return pixel < 0 ? 0 : pixel >= length ? length - 1 : pixel;
+}
+
+static void build_axis(AxisSample *axis, int length, int source_length,
+                       int display_length, int64_t scale, bool contain, int focus) {
+    int64_t viewport = (int64_t)display_length * scale;
+    int64_t source = (int64_t)source_length << 16;
+    int64_t origin = contain ? (source - viewport) / 2 :
+                     (source > viewport ? (source - viewport) * focus / 100 : 0);
     for (int i = 0; i < length; ++i) {
-        int64_t fixed = ((int64_t)source_length << 15)
-                      + ((int64_t)(2 * i + 1 - display_length) * scale) / 2;
-        int pixel = (int)(fixed >> 16);
-        if (fit_mode && (pixel < 0 || pixel >= source_length)) axis[i] = -1;
-        else axis[i] = pixel < 0 ? 0 : pixel >= source_length ? source_length - 1 : pixel;
+        int64_t center = origin + ((int64_t)(2 * i + 1) * scale) / 2;
+        if (contain && (center < 0 || center >= ((int64_t)source_length << 16))) {
+            axis[i] = (AxisSample){-1, -1, 0};
+        } else if (scale >= (2LL << 16)) {
+            // Two samples per axis cover the source footprint when shrinking.
+            axis[i] = (AxisSample){
+                clamp_pixel((int)((center - scale / 4) >> 16), source_length),
+                clamp_pixel((int)((center + scale / 4) >> 16), source_length), 128};
+        } else {
+            // Bilinear interpolation when the scale is small or the image grows.
+            int64_t pixel_center = center - (1LL << 15);
+            int first = (int)(pixel_center >> 16);
+            unsigned blend = (unsigned)((pixel_center & 0xffff) >> 8);
+            axis[i] = (AxisSample){clamp_pixel(first, source_length),
+                                   clamp_pixel(first + 1, source_length), blend};
+        }
     }
 }
 
-static void build_sample_map(SampleMap *map, int sw, int sh, int dw, int dh, int width, int height) {
-    // 16.16 coordinates are prepared once per axis instead of dividing in every pixel.
+static void build_sample_map(SampleMap *map, int sw, int sh, int dw, int dh,
+                             int width, int height, int image_index) {
     int64_t sx = ((int64_t)sw << 16) / dw;
     int64_t sy = ((int64_t)sh << 16) / dh;
-    int64_t scale = fit_mode ? (sx > sy ? sx : sy) : (sx < sy ? sx : sy);
-    build_axis(map->x, width, sw, dw, scale);
-    build_axis(map->y, height, sh, dh, scale);
+    int64_t source_aspect = (int64_t)sw * dh;
+    int64_t target_aspect = (int64_t)sh * dw;
+    bool substantial_crop = source_aspect * 100 > target_aspect * 112 ||
+                            target_aspect * 100 > source_aspect * 112;
+    bool contain = fit_mode == 1 || (fit_mode == 0 && substantial_crop);
+    int64_t scale = contain ? (sx > sy ? sx : sy) : (sx < sy ? sx : sy);
+    int fx = image_index < 0 ? 50 : focus_x[image_index];
+    int fy = image_index < 0 ? 50 : focus_y[image_index];
+    build_axis(map->x, width, sw, dw, scale, contain, fx);
+    build_axis(map->y, height, sh, dh, scale, contain, fy);
+}
+
+static inline int composited_channel(const stbi_uc *pixel, int channel, int background) {
+    return pixel[3] == 255 ? pixel[channel] :
+        (pixel[channel] * pixel[3] + background * (255 - pixel[3])) / 255;
 }
 
 static inline void sample_image(const stbi_uc *src, int sw, const SampleMap *map, int x, int y, int *r, int *g, int *b) {
-    int ix = map->x[x], iy = map->y[y];
-    if (ix < 0 || iy < 0) { *r = 6; *g = 11; *b = 39; return; }
-    const stbi_uc *p = src + ((size_t)iy * sw + ix) * 4;
-    int alpha = p[3];
-    *r = (p[0] * alpha + 6 * (255 - alpha)) / 255;
-    *g = (p[1] * alpha + 11 * (255 - alpha)) / 255;
-    *b = (p[2] * alpha + 39 * (255 - alpha)) / 255;
+    const AxisSample *ax = &map->x[x], *ay = &map->y[y];
+    if (ax->first < 0 || ay->first < 0) { *r = 6; *g = 11; *b = 39; return; }
+    const stbi_uc *p00 = src + ((size_t)ay->first * sw + ax->first) * 4;
+    const stbi_uc *p10 = src + ((size_t)ay->first * sw + ax->second) * 4;
+    const stbi_uc *p01 = src + ((size_t)ay->second * sw + ax->first) * 4;
+    const stbi_uc *p11 = src + ((size_t)ay->second * sw + ax->second) * 4;
+    unsigned w00 = (256 - ax->blend) * (256 - ay->blend);
+    unsigned w10 = ax->blend * (256 - ay->blend);
+    unsigned w01 = (256 - ax->blend) * ay->blend;
+    unsigned w11 = ax->blend * ay->blend;
+    *r = (composited_channel(p00, 0, 6) * w00 + composited_channel(p10, 0, 6) * w10 +
+          composited_channel(p01, 0, 6) * w01 + composited_channel(p11, 0, 6) * w11 + 32768) >> 16;
+    *g = (composited_channel(p00, 1, 11) * w00 + composited_channel(p10, 1, 11) * w10 +
+          composited_channel(p01, 1, 11) * w01 + composited_channel(p11, 1, 11) * w11 + 32768) >> 16;
+    *b = (composited_channel(p00, 2, 39) * w00 + composited_channel(p10, 2, 39) * w10 +
+          composited_channel(p01, 2, 39) * w01 + composited_channel(p11, 2, 39) * w11 + 32768) >> 16;
 }
 
-static bool show_top(const char *path, int width) {
-    int sw, sh, c;
-    stbi_uc *src = stbi_load(path, &sw, &sh, &c, 4);
-    if (!src) return false;
+static bool render_top(const stbi_uc *src, int sw, int sh, int width, int image_index) {
     SampleMap map;
-    build_sample_map(&map, sw, sh, width, 240, width, 240);
+    int texture_width = width == 400 ? 412 : width;
+    build_sample_map(&map, sw, sh, texture_width, 240, texture_width, 240, image_index);
     u8 *fb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+    if (!fb) return false;
     for (int x = 0; x < 400; ++x) for (int y = 0; y < 240; ++y) {
         int r, g, b;
         int display_x = x - (400 - width) / 2;
-        if (display_x >= 0 && display_x < width) sample_image(src, sw, &map, display_x, y, &r, &g, &b);
+        if (display_x >= 0 && display_x < width)
+            sample_image(src, sw, &map, display_x + (texture_width - width) / 2, y, &r, &g, &b);
         else { r = 6; g = 11; b = 39; }
         size_t p = ((size_t)x * 240 + (239 - y)) * 3;
         fb[p] = b; fb[p+1] = g; fb[p+2] = r;
     }
-    stbi_image_free(src);
     gfxFlushBuffers();
     return true;
+}
+
+static bool show_top(const char *path, int width, int image_index) {
+    int sw, sh, c;
+    stbi_uc *src = stbi_load(path, &sw, &sh, &c, 4);
+    if (!src) return false;
+    bool ok = render_top(src, sw, sh, width, image_index);
+    stbi_image_free(src);
+    return ok;
+}
+
+static void clear_preview(void) {
+    stbi_image_free(preview_pixels);
+    preview_pixels = NULL;
+    preview_target = -1;
+}
+
+static bool preview_selected(void) {
+    if (preview_target != edit_target || !preview_pixels) {
+        clear_preview();
+        int channels;
+        preview_pixels = stbi_load(chosen[edit_target], &preview_width, &preview_height, &channels, 4);
+        if (!preview_pixels) return false;
+        preview_target = edit_target;
+    }
+    return render_top(preview_pixels, preview_width, preview_height,
+                      edit_target == 0 ? 400 : 320, edit_target);
+}
+
+static void show_splash(void) {
+    int previous = fit_mode;
+    fit_mode = 2;
+    show_top("romfs:/splash.png", 400, -1);
+    fit_mode = previous;
 }
 
 static void put_u32(u8 *p, u32 v) {
     p[0] = v & 255; p[1] = (v >> 8) & 255; p[2] = (v >> 16) & 255; p[3] = v >> 24;
 }
 
-static bool fill_texture(u8 *dest, const char *path, int display_w) {
+static bool fill_texture(u8 *dest, const char *path, int display_w, int image_index) {
     int sw, sh, c;
     stbi_uc *src = stbi_load(path, &sw, &sh, &c, 4);
     if (!src) return false;
     SampleMap map;
-    build_sample_map(&map, sw, sh, display_w, 240, display_w, 240);
+    build_sample_map(&map, sw, sh, display_w, 240, display_w, 240, image_index);
     u16 *pixels = (u16 *)dest;
     for (int y = 0; y < TEX_H; ++y) for (int x = 0; x < TEX_W; ++x) {
         int r, g, b;
@@ -275,8 +353,8 @@ static bool generate_theme(void) {
     body[5] = chosen[2][0] ? 1 : 0;
     put_u32(body + 0x0c, 3); put_u32(body + 0x10, 1); put_u32(body + 0x18, BODY_HEADER);
     put_u32(body + 0x20, 3); put_u32(body + 0x24, 1); put_u32(body + 0x28, BODY_HEADER + TEX_BYTES);
-    bool ok = fill_texture(body + BODY_HEADER, chosen[0], 412)
-           && fill_texture(body + BODY_HEADER + TEX_BYTES, chosen[1], 320);
+    bool ok = fill_texture(body + BODY_HEADER, chosen[0], 412, 0)
+           && fill_texture(body + BODY_HEADER + TEX_BYTES, chosen[1], 320, 1);
     if (ok) {
         FILE *out = fopen(body_path, "wb");
         ok = out && write_lz11_literals(out, body, BODY_SIZE);
@@ -298,7 +376,7 @@ static const char *short_name(const char *path) {
 
 static void draw_ui(void) {
     consoleClear();
-    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1.1\n");
+    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1.2\n");
     printf(" 100%% sur la console / old 3DS\n");
     printf("----------------------------------------\n");
     if (phase < 3) {
@@ -320,9 +398,16 @@ static void draw_ui(void) {
         printf("\n Haut: %.33s\n", short_name(chosen[0]));
         printf(" Bas : %.33s\n", short_name(chosen[1]));
         printf(" BGM : %.33s\n", chosen[2][0] ? short_name(chosen[2]) : "sans musique");
-        printf(" Mode: %s\n", fit_mode ? "image entiere" : "recadrage auto");
+        printf(" Mode: %s\n", fit_mode == 0 ? "auto intelligent" : fit_mode == 1 ? "image entiere" : "recadrage centre");
+        if (phase == 3) {
+            printf(" Reglage: %s\n", edit_target == 0 ? "ecran haut" : "ecran bas");
+            printf(" Cadrage: H %d%%  V %d%%\n", focus_x[edit_target], focus_y[edit_target]);
+        }
         printf("\n %s\n", message);
-        if (phase == 3) printf("\n A creer  X cadrage  Y apercu bas\n");
+        if (phase == 3) {
+            printf("\n L/R ecran  Croix deplacer\n");
+            printf(" Y apercu  X mode  A creer  B retour\n");
+        }
         else printf("\n A nouveau theme   START quitter\n");
     }
 }
@@ -332,7 +417,7 @@ int main(void) {
     gfxSetDoubleBuffering(GFX_TOP, false);
     gfxSetDoubleBuffering(GFX_BOTTOM, false);
     consoleInit(GFX_BOTTOM, NULL);
-    if (romfsInit() == 0) show_top("romfs:/splash.png", 400);
+    if (romfsInit() == 0) show_splash();
     DIR *sd = opendir("sdmc:/");
     if (!sd) {
         consoleClear(); printf("Carte SD indisponible.\nSTART pour quitter.");
@@ -356,7 +441,7 @@ int main(void) {
             if ((keys & KEY_Y) && phase < 2 && count && !entries[cursor].directory) {
                 char path[PATH_SIZE]; int width, height;
                 if (full_path(path, sizeof(path), entries[cursor].name) &&
-                    image_info(path, &width, &height) && show_top(path, phase == 0 ? 400 : 320))
+                    image_info(path, &width, &height) && show_top(path, phase == 0 ? 400 : 320, phase))
                     strcpy(message, "Apercu: A pour choisir");
                 else strcpy(message, "Apercu impossible");
                 redraw = true;
@@ -378,17 +463,43 @@ int main(void) {
                 redraw = true;
             }
         } else if (phase == 3) {
-            if (keys & KEY_B) { phase = 2; scan_directory(); redraw = true; }
-            if (keys & KEY_X) { fit_mode = !fit_mode; redraw = true; }
-            if (keys & KEY_Y) { if (!show_top(chosen[1], 320)) strcpy(message, "Apercu impossible"); redraw = true; }
-            if (keys & KEY_A) { strcpy(message, "Generation en cours..."); draw_ui(); if (generate_theme()) phase = 4; redraw = true; }
+            if (keys & KEY_B) {
+                clear_preview(); phase = 2; scan_directory(); redraw = true;
+            } else {
+                if (keys & KEY_L) { edit_target = 0; redraw = true; }
+                if (keys & KEY_R) { edit_target = 1; redraw = true; }
+                if (keys & KEY_X) { fit_mode = (fit_mode + 1) % 3; redraw = true; }
+                int old_x = focus_x[edit_target], old_y = focus_y[edit_target];
+                if (keys & KEY_LEFT) focus_x[edit_target] -= 10;
+                if (keys & KEY_RIGHT) focus_x[edit_target] += 10;
+                if (keys & KEY_UP) focus_y[edit_target] -= 10;
+                if (keys & KEY_DOWN) focus_y[edit_target] += 10;
+                if (focus_x[edit_target] < 0) focus_x[edit_target] = 0;
+                if (focus_x[edit_target] > 100) focus_x[edit_target] = 100;
+                if (focus_y[edit_target] < 0) focus_y[edit_target] = 0;
+                if (focus_y[edit_target] > 100) focus_y[edit_target] = 100;
+                bool moved = old_x != focus_x[edit_target] || old_y != focus_y[edit_target];
+                if (moved) { fit_mode = 2; redraw = true; }
+                if ((keys & (KEY_Y | KEY_L | KEY_R | KEY_X)) || moved) {
+                    if (!preview_selected()) strcpy(message, "Apercu impossible");
+                    else message[0] = 0;
+                    redraw = true;
+                }
+                if (keys & KEY_A) {
+                    clear_preview(); strcpy(message, "Generation en cours..."); draw_ui();
+                    if (generate_theme()) phase = 4;
+                    redraw = true;
+                }
+            }
         } else if (keys & KEY_A) {
-            memset(chosen, 0, sizeof(chosen)); phase = 0; strcpy(cwd, "sdmc:/");
-            scan_directory(); show_top("romfs:/splash.png", 400); redraw = true;
+            clear_preview(); memset(chosen, 0, sizeof(chosen)); phase = 0; fit_mode = 0;
+            edit_target = 0; focus_x[0] = focus_x[1] = focus_y[0] = focus_y[1] = 50;
+            strcpy(cwd, "sdmc:/");
+            scan_directory(); show_splash(); redraw = true;
         }
         if (redraw) draw_ui();
         gfxFlushBuffers(); gspWaitForVBlank();
     }
-    romfsExit(); gfxExit();
+    clear_preview(); romfsExit(); gfxExit();
     return 0;
 }
