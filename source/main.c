@@ -256,13 +256,14 @@ static bool generate_theme(void) {
     if (chosen[2][0] && !valid_bgm(chosen[2])) {
         strcpy(message, "BCSTM invalide ou > 3 Mo"); return false;
     }
-    mkdir("sdmc:/Themes", 0777);
+    // Anemone3DS scans the SD card's /themes/ directory.
+    mkdir("sdmc:/themes", 0777);
     char name[48], folder[128], body_path[160], bgm_path[160];
     theme_name(name, sizeof(name));
     int suffix = 0;
     do {
-        if (suffix) snprintf(folder, sizeof(folder), "sdmc:/Themes/%s_%d", name, suffix);
-        else snprintf(folder, sizeof(folder), "sdmc:/Themes/%s", name);
+        if (suffix) snprintf(folder, sizeof(folder), "sdmc:/themes/%s_%d", name, suffix);
+        else snprintf(folder, sizeof(folder), "sdmc:/themes/%s", name);
         ++suffix;
     } while (suffix < 100 && access(folder, F_OK) == 0);
     if (suffix == 100 || mkdir(folder, 0777) != 0) { strcpy(message, "Creation dossier impossible"); return false; }
@@ -287,7 +288,7 @@ static bool generate_theme(void) {
         remove(body_path); remove(bgm_path); rmdir(folder);
         strcpy(message, "Export echoue (SD / memoire)"); return false;
     }
-    snprintf(message, sizeof(message), "Cree: Themes/%s", strrchr(folder, '/') + 1);
+    snprintf(message, sizeof(message), "Cree: themes/%s", strrchr(folder, '/') + 1);
     return true;
 }
 
