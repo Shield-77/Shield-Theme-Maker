@@ -1,6 +1,6 @@
 # Shield Theme Maker
 
-Application homebrew Nintendo 3DS (y compris old 3DS) pour fabriquer un thème du menu HOME directement sur la console. Le code a été généré avec Codex.
+Application homebrew 3DS (y compris old 3DS) pour fabriquer un thème du menu HOME directement sur la console. Le code a été généré avec Codex.
 
 Version 0.1.5 : corrige un dépassement de pile pendant la création du thème. L'encodeur de `preview.png` réservait environ 65 Ko sur la pile, et le filtre de redimensionnement environ 28 Ko ; leurs tables sont désormais stockées hors de la pile. Cette correction concerne notamment le crash observé lors de la création d'un thème avec MP3. Le fonctionnement sur console physique reste à revérifier.
 
