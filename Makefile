@@ -51,6 +51,7 @@ ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:=	-g -Wall -O2 -mword-relocations \
 			-ffunction-sections \
+			-fstack-usage \
 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -I$(DEVKITPRO)/portlibs/3ds/include -D__3DS__
