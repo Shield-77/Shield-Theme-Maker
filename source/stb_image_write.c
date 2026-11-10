@@ -205,7 +205,8 @@ unsigned char * stbi_zlib_compress(unsigned char *data, int data_len, int *out_l
    unsigned int bitbuf=0;
    int i,j, bitcount=0;
    unsigned char *out = NULL;
-   unsigned char **hash_table[stbi__ZHASH]; // 64KB on the stack!
+   /* Keep the 64 KiB table in BSS: the old 3DS main thread has a small stack. */
+   static unsigned char **hash_table[stbi__ZHASH];
    if (quality < 5) quality = 5;
 
    stbi__sbpush(out, 0x78);   // DEFLATE 32K window

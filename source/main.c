@@ -125,6 +125,8 @@ static int whole_image_zoom(int image_index) {
 
 typedef struct { int index[4]; unsigned weight[4], count; } AxisSample;
 typedef struct { AxisSample x[TEX_W], y[TEX_H]; } SampleMap;
+/* A SampleMap is about 27 KiB: keep it off the small old-3DS main stack. */
+static SampleMap sample_map;
 
 static int clamp_pixel(int pixel, int length) {
     return pixel < 0 ? 0 : pixel >= length ? length - 1 : pixel;
@@ -196,16 +198,15 @@ static inline void sample_image(const stbi_uc *src, int sw, const SampleMap *map
 }
 
 static bool render_top(const stbi_uc *src, int sw, int sh, int width, int image_index) {
-    SampleMap map;
     int texture_width = width == 400 ? 412 : width;
-    build_sample_map(&map, sw, sh, texture_width, 240, texture_width, 240, image_index);
+    build_sample_map(&sample_map, sw, sh, texture_width, 240, texture_width, 240, image_index);
     u8 *fb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
     if (!fb) return false;
     for (int x = 0; x < 400; ++x) for (int y = 0; y < 240; ++y) {
         int r, g, b;
         int display_x = x - (400 - width) / 2;
         if (display_x >= 0 && display_x < width)
-            sample_image(src, sw, &map, display_x + (texture_width - width) / 2, y, &r, &g, &b);
+            sample_image(src, sw, &sample_map, display_x + (texture_width - width) / 2, y, &r, &g, &b);
         else { r = 6; g = 11; b = 39; }
         size_t p = ((size_t)x * 240 + (239 - y)) * 3;
         if (image_index >= 0 && (x < 3 || x >= 397 || y < 3 || y >= 237)) {
@@ -258,14 +259,13 @@ static bool fill_texture(u8 *dest, const char *path, int display_w, int image_in
     int sw, sh, c;
     stbi_uc *src = stbi_load(path, &sw, &sh, &c, 4);
     if (!src) return false;
-    SampleMap map;
-    build_sample_map(&map, sw, sh, display_w, 240, display_w, 240, image_index);
+    build_sample_map(&sample_map, sw, sh, display_w, 240, display_w, 240, image_index);
     u16 *pixels = (u16 *)dest;
     for (int y = 0; y < TEX_H; ++y) for (int x = 0; x < TEX_W; ++x) {
         int r, g, b;
         int px = x < display_w ? x : display_w - 1;
         int py = y < 240 ? y : 239;
-        sample_image(src, sw, &map, px, py, &r, &g, &b);
+        sample_image(src, sw, &sample_map, px, py, &r, &g, &b);
         unsigned tile = (((y >> 3) * (TEX_W >> 3) + (x >> 3)) << 6)
             + ((x & 1) | ((y & 1) << 1) | ((x & 2) << 1) | ((y & 2) << 2) | ((x & 4) << 2) | ((y & 4) << 3));
         pixels[tile] = (u16)(((r & 0xf8) << 8) | ((g & 0xfc) << 3) | (b >> 3));
@@ -279,14 +279,13 @@ static bool write_preview_half(u8 *preview, const char *path, int image_index) {
     stbi_uc *src = stbi_load(path, &sw, &sh, &channels, 4);
     if (!src) return false;
     int width = image_index == 0 ? 412 : 320;
-    SampleMap map;
-    build_sample_map(&map, sw, sh, width, 240, width, 240, image_index);
+    build_sample_map(&sample_map, sw, sh, width, 240, width, 240, image_index);
     for (int y = 0; y < 240; ++y)
         for (int x = 0; x < 400; ++x) {
             int r = 6, g = 11, b = 39;
             int ix = image_index == 0 ? x + 6 : x - 40;
             if (ix >= 0 && ix < width)
-                sample_image(src, sw, &map, ix, y, &r, &g, &b);
+                sample_image(src, sw, &sample_map, ix, y, &r, &g, &b);
             size_t at = ((size_t)(y + image_index * 240) * 400 + x) * 3;
             preview[at] = r; preview[at + 1] = g; preview[at + 2] = b;
         }
@@ -439,7 +438,7 @@ static const char *short_name(const char *path) {
 
 static void draw_ui(void) {
     consoleClear();
-    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1.4\n");
+    printf("\x1b[0;0H SHIELD THEME MAKER  v0.1.5\n");
     printf(" 100%% sur la console / old 3DS\n");
     printf("----------------------------------------\n");
     if (phase < 3) {
