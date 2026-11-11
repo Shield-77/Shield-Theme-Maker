@@ -3,7 +3,19 @@
 Application homebrew 3DS (y compris old 3DS) pour fabriquer un thème du menu HOME directement sur la console. 
 **Le code a été généré avec Codex.**
 
-Soyez prudent, l appliation reste en developement et j ai reperé deux trois bugs, soyez conscient de ce que vous faites pour eviter les accidents, les bugs connues et qui aurons des correctifs d ici le 14nov : gestion de la memoire, peu effacer un theme cree/ l ecrasé si deja existant car probleme dientifiant,cela nefface et n ecrase pas les themes qu ne proviennt pas de shield theme maker et coté conversion audio, c est la partie la plus dur et qui va avoir beaucoup doptimisation et de correctif. Je vous remercie  de votre patiences et d avoir essayee mon app.
+**Attention : SHIELD Theme Maker est encore en développement !**
+
+Soyez prudents en utilisant l'application. J'ai repéré quelques bugs et je préfère vous prévenir pour éviter les mauvaises surprises.
+
+Voici les bugs connus, qui devraient recevoir des correctifs d'ici le **14 novembre** :
+
+- **Gestion de la mémoire :** quelques problèmes restent à corriger.
+- **Création des thèmes :** un problème d'identifiant peut entraîner la suppression ou l'écrasement d'un thème déjà créé avec SHIELD Theme Maker. Rassurez-vous, ce bug ne concerne pas les thèmes qui ne proviennent pas de l'application.
+- **Conversion audio :** c'est la partie la plus compliquée à développer. Elle va encore recevoir pas mal d'optimisations et de corrections.
+
+Je vous conseille donc de faire attention pour le moment, surtout si vous avez déjà créé des thèmes avec l'application.
+
+Merci beaucoup pour votre patience et d'avoir pris le temps d'essayer mon application !
 
 Version 0.1.5 : corrige un dépassement de pile pendant la création du thème. L'encodeur de `preview.png` réservait environ 65 Ko sur la pile, et le filtre de redimensionnement environ 28 Ko ; leurs tables sont désormais stockées hors de la pile. Cette correction concerne notamment le crash observé lors de la création d'un thème avec MP3. Le fonctionnement sur console physique reste à revérifier.
 
