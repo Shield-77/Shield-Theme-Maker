@@ -1,6 +1,6 @@
 # Shield Theme Maker (EXPÉRIMENTAL)
 
-**Cette application peut présenter un risque de corruption de themes (c'est embêtant et ça empêche de boot dans le menu home, mais c'est temporaire et réparable), soyez prudents et responsable, avant d'intégrer vos themes que vous avez créé via l'app, n'hésitez pas à les vérifier pour éviter d'intégrer un theme corrompu !**
+**Cette application peut présenter un risque de corruption de themes (c'est embêtant et ça empêche de boot dans le menu home, mais c'est temporaire et réparable, ça arrive si le theme est corrompu ou le fichier bcstm est incohérent, plusieurs possibilités.), soyez prudents et responsable, avant d'intégrer vos themes que vous avez créé via l'app, n'hésitez pas à les vérifier pour éviter d'intégrer un theme corrompu !**
 
 Application homebrew 3DS (y compris old 3DS) pour fabriquer un thème du menu HOME directement sur la console. 
 
