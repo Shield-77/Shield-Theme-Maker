@@ -21,7 +21,7 @@ Merci beaucoup pour votre patience et d'avoir pris le temps d'essayer mon applic
 Le résultat en utilisant correctement l'application Shield Theme Maker: <img width="2296" height="4080" alt="1000244339" src="https://github.com/user-attachments/assets/d6b95913-4bf7-4e9b-8d55-d39656115922" />
 
 
-et le theme cree sera accompagné d'un preview permettant à ameone par exemple d'avoir un aperçu du fond d'écran au lieu de se baser uniquement sur le titre, voici à ce que une preview ressemble (exemple de preview d'un thème que j'ai cree moi même avec l'application à partir d'images de Pinterest :
+et le theme cree sera accompagné d'un preview permettant à ameone par exemple d'avoir un aperçu du fond d'écran au lieu de se baser uniquement sur le titre, voici à ce que une preview ressemble (exemple de preview d'un thème que j'ai cree moi même avec l'application à partir d'images de Pinterest (désolé de la qualité de la photo mon tel est horrible 😭):
 
 
 
