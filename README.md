@@ -1,5 +1,7 @@
 # Shield Theme Maker
 
+**Cette application peut présenter un risque de corruption de themes (c'est embêtant et ça empêche de boot dans le menu home, mais c'est temporaire et réparable), soyez prudents et responsable, avant d'intégrer vos themes que vous avez créé via l'app, n'hésitez pas à les vérifier pour éviter d'intégrer un theme corrompu !**
+
 Application homebrew 3DS (y compris old 3DS) pour fabriquer un thème du menu HOME directement sur la console. 
 
 **Le code a été généré avec Codex.**
@@ -23,6 +25,7 @@ Le résultat en utilisant correctement l'application Shield Theme Maker: <img wi
 
 et le theme cree sera accompagné d'un preview permettant à ameone par exemple d'avoir un aperçu du fond d'écran au lieu de se baser uniquement sur le titre, voici à ce que une preview ressemble (exemple de preview d'un thème que j'ai cree moi même avec l'application à partir d'images de Pinterest (désolé de la qualité de la photo mon tel est horrible 😭):
 
+<img width="864" height="1536" alt="1000244674" src="https://github.com/user-attachments/assets/147b46e6-a45a-4fba-9144-f70c4d5faf89" />
 
 
 
