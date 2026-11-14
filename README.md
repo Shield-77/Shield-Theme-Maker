@@ -24,7 +24,7 @@ Un thème créé avec l'application :
 
 Son aperçu dans Anemone3DS :
 
-<img width="864" height="1536" alt="Aperçu d'un thème dans Anemone3DS" src="https://github.com/user-attachments/assets/147b46e6-a45a-4fba-9144-f70c4d5faf89" />
+
 
 ## Installation CIA
 
