@@ -35,7 +35,7 @@ include $(DEVKITARM)/3ds_rules
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
 TARGET		:=	shield_theme_maker
-BUILD		:=	build
+BUILD		:=	build-v020
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
