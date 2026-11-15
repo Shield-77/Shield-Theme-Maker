@@ -16,6 +16,8 @@ Le projet est développé et testé principalement sur une véritable Old 3DS, a
 
 Je dit souvent dans une release qu'une nouvelle fonctionnalité ou corrections est à vérifier/tester, si par la suite je publie une nouvelle version celà signifie que j'ai vérifié/corrigé, je vais essayer d'être un peu plus clair sur ce point là, encore désolé.
 
+**LE SOURCE PEUT PARFOIS ÊTRE OBSELÈTE, EN RAISON DE MON MANQUE DE TEMPS JE PEUX PRENDRE UN PEU DE TEMPS AVANT DE LE METTRE À JOURS ET JE M'EN EXCUSE**
+
 ---
 
 🔥 Dernière version : v0.2.11
