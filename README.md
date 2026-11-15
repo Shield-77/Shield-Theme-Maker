@@ -16,7 +16,7 @@ Le projet est développé et testé principalement sur une véritable Old 3DS, a
 
 Je dit souvent dans une release qu'une nouvelle fonctionnalité ou corrections est à vérifier/tester, si par la suite je publie une nouvelle version celà signifie que j'ai vérifié/corrigé, je vais essayer d'être un peu plus clair sur ce point là, encore désolé.
 
-**LE SOURCE PEUT PARFOIS ÊTRE OBSELÈTE, EN RAISON DE MON MANQUE DE TEMPS JE PEUX PRENDRE UN PEU DE TEMPS AVANT DE LE METTRE À JOURS ET JE M'EN EXCUSE**
+**Code source v0.2.11 : [parcourir les fichiers](source/) ou [télécharger l’archive de la release](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip).**
 
 ---
 
@@ -511,7 +511,7 @@ Création du CIA
 Pour produire un CIA, installez également "makerom" et "bannertool".
 
 bannertool makebanner -i banner.png -a banner.wav -o banner.bnr
-makerom -f cia -o shield_theme_maker.cia -DAPP_ENCRYPTED=false -rsf shield.rsf -target t -ver 10 -exefslogo -elf shield_theme_maker.elf -icon shield_theme_maker.smdh -banner banner.bnr
+makerom -f cia -o shield_theme_maker.cia -DAPP_ENCRYPTED=false -rsf shield.rsf -target t -ver 1025 -exefslogo -elf shield_theme_maker.elf -icon shield_theme_maker.smdh -banner banner.bnr
 
 Le fichier "shield.rsf" configure le mode Legacy compatible avec les anciennes Nintendo 3DS.
 
