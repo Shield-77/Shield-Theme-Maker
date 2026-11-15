@@ -1,6 +1,6 @@
 # Shield Theme Maker
 
-**codex was used to generate the code**
+**Codex was used to generate the code**
 
 Créez un thème directement sur votre **3DS**, sans ordinateur : choisissez une image pour l’écran supérieur, une autre pour l’écran inférieur et, si vous le souhaitez, une musique. L’application est conçue avec une attention particulière aux ressources des modèles Old 3DS. Codex a aidé à générer le code.
 
