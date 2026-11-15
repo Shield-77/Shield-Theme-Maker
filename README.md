@@ -1,5 +1,7 @@
 # Shield Theme Maker
 
+**codex was used to generate the code**
+
 Créez un thème directement sur votre **3DS**, sans ordinateur : choisissez une image pour l’écran supérieur, une autre pour l’écran inférieur et, si vous le souhaitez, une musique. L’application est conçue avec une attention particulière aux ressources des modèles Old 3DS. Codex a aidé à générer le code.
 
 **Version actuelle : [v0.2.11](https://github.com/Shield-77/Shield-Theme-Maker/releases/tag/v0.2.11)** · [Télécharger le CIA](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/shield_theme_maker.cia) · [Parcourir le code](source/) · [Archive source](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip)
