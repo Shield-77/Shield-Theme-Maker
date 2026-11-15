@@ -1,4 +1,4 @@
- SHIELD Theme Maker
+## SHIELD Theme Maker
 
 Créez vos propres thèmes Nintendo 3DS directement sur votre console, sans ordinateur ni téléphone !
 
@@ -6,13 +6,15 @@ SHIELD Theme Maker est une application homebrew qui permet de créer des thèmes
 
 Choisissez VOS images, peu importe leurs dimensions d'origine, personnalisez leur cadrage, ajoutez VOTRE musique et créez un thème compatible avec Anemone3DS.
 
-Tout se fait directement sur votre console !
+## Tout se fait directement sur votre console !
 
  Compatible avec les Nintendo 3DS, y compris les modèles Old 3DS.
 
 Le projet est développé et testé principalement sur une véritable Old 3DS, avec une attention particulière portée à ses composants et à ses ressources limitées.
 
-Le code a été généré avec l'aide de Codex.
+**Le code a été généré avec l'aide de Codex.**
+
+Je dit souvent dans une release qu'une nouvelle fonctionnalité ou corrections est à vérifier/tester, si par la suite je publie une nouvelle version celà signifie que j'ai vérifié/corrigé, je vais essayer d'être un peu plus clair sur ce point là, encore désolé.
 
 ---
 
