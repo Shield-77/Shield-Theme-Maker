@@ -4,7 +4,19 @@ Application homebrew 3DS (y compris old 3DS) pour fabriquer un thème du menu HO
 
 **Le code a été généré avec Codex**
 
-> **Attention : l'audio reste expérimental.** Un thème contenant un BCSTM incorrect peut faire planter le menu HOME. Les corruptions observées jusqu'ici concernaient des thèmes avec audio. Les thèmes sans audio ont été davantage corrigés et ont fonctionné dans nos essais internes.
+> Un thème contenant un BCSTM incorrect peut faire planter le menu HOME. Les corruptions observées jusqu'ici concernaient des thèmes avec audio. Les thèmes sans audio ont été davantage corrigés et ont fonctionné dans nos essais
+> internes.
+
+Dernière version 0.2.11 : l'une des meilleures version possible, de 8kHz à 20kHz, un audio de meilleur qualité est plus court (41sec pour 20kHz), jusqu'à présent... j'ai testé plein de thèmes avec des images différentes récupéré à l'arrache de Pinterest pour tester le recadrage intelligent... j'ai testé plusieurs formats audio et différents audio... c'est définitivement la version la plus stable possible, je ne dis pas que c'est parfait, ça reste codex quia généré le code mais bordel,j'ai travaillé aussi derrière 😭.
+
+ Et comme d'habitude ce readme a été écrit à 2h du mat, le but n'est absolument pas de faire concurrence à qui que ce soit mais de régler de vrais problème et de rendre la 3ds un peu plus indépendante de l'ordinateur (respect à ceux qui sont encore sur la gt710 😭 et ceux qui n'ont même pas les moyens d'avoir un pc.
+ 
+ Perso c'était mon cas avant jusqu'à qu'on m'offre le Thomson parce qu'on avait pitié de moi lol, enfin bref, en très simple mon  est d'utiliser codex pour de vrai trucs. 
+ 
+ Je pense à ceux qui n'ont pas les moyens en priorité et qui sont coincés sur les modèles old (perso je suis coincé sur old depuis 2015 😭, j'ai pas 250 balles pour une new bro 💔 bref ça permet de m'apprendre encore plus dans l'optimisation donc c'est pas un problème. 
+ 
+ J'espère que vous allez bien kiffer et jvous laisse tranquille.
+
 
 Version 0.2.3 : préécoute du passage entier avec arrêt par Y ou B, mode de cadrage « prolonger » qui répète les pixels du bord sans flou, et affichage stabilisé de l'écran inférieur. La création de thèmes **sans audio** a été largement travaillée et corrigée en interne. La conversion et l'utilisation d'un thème **avec audio restent expérimentales**.
 
