@@ -309,9 +309,9 @@ Si vous modifiez le projet ou créez votre propre version, merci d'indiquer clai
 
 Merci à toutes les personnes qui s'intéressent à mes projets.
 
-SHIELD est un ensemble de projets homebrew gratuits que je développe avec l'aide de Codex, en participant à leur conception et en effectuant les tests directement sur Nintendo 3DS.
+SHIELD est un ensemble de projets homebrew gratuits que je développe avec l'aide de Codex, en participant à leur conception et en effectuant les tests directement sur 3DS.
 
-Le but est simplement de partager des applications utiles et de continuer à faire vivre ces consoles.
+Le but est simplement de partager des applications utiles et de continuer à faire vivre ces consoles même quand nos moyens sont limitées.
 
 Profitez bien de votre 3DS !
 
