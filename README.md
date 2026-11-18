@@ -12,6 +12,13 @@ exemple de thèmes que j'ai réalisé à partir d'images provenant de Pinterest,
 
 **Version actuelle : [v0.2.11](https://github.com/Shield-77/Shield-Theme-Maker/releases/tag/v0.2.11)** · [Télécharger le CIA](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/shield_theme_maker.cia) · [Parcourir le code](source/) · [Archive source](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip)
 
+
+
+<img width="1080" height="1440" alt="1000245457" src="https://github.com/user-attachments/assets/4c805811-56fd-41cb-a0cf-9ab95b54454c" />
+
+
+
+
 ## Créer un thème
 
 1. Confirmez la langue au premier lancement et suivez le guide de huit pages. Il reste accessible avec **SELECT → Guide** ; SELECT donne aussi accès à la langue.
