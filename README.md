@@ -9,6 +9,12 @@ exemple de thèmes que j'ai réalisé à partir d'images provenant de Pinterest,
 
 <img width="997" height="1396" alt="1000245467" src="https://github.com/user-attachments/assets/b244eb11-e0ec-4958-aa7a-1eaaabfc365e" />
 
+Je ne suis pas affilé à ameone mais les thèmes ne peuvent être appliquées que par une application comme ameone, concernant les preview, les preview png sont fonctionnels et audio aussi mais la dernière version d'ameone as son moteur audio cassé (uniquement en preview).
+
+Il existe des projets qui on repris ameone et l'on énormément amélioré mais ils sont vibecoded, je ne suis pas contre mais je sais que beaucoup de gens n'aiment pas les projets vibecoded et surtout quand ils touchent à ce qui peut corrompre des données et brick temporaire la console,
+car si un theme est mal appliqué le menu home peut soit ne pas afficher le fond d'écran et tout va bien soit juste ne plus boot jusqu'à ce que le dossier de extdata concernant les thèmes soit supprimé, enfin bref.
+
+Votre vie vos choix pas les miens, profitez bien !
 
 **Version actuelle : [v0.2.11](https://github.com/Shield-77/Shield-Theme-Maker/releases/tag/v0.2.11)** · [Télécharger le CIA](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/shield_theme_maker.cia) · [Parcourir le code](source/) · [Archive source](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip)
 
