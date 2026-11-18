@@ -3,9 +3,9 @@ Shield Theme Maker
 **Codex was used to generate the code**
 
 
-Créez vos propres thèmes Nintendo 3DS directement sur votre console, sans ordinateur !
+Créez vos propres thèmes 3DS directement sur votre console, sans ordinateur !
 
-Shield Theme Maker est une application homebrew qui permet de créer facilement des thèmes personnalisés pour Nintendo 3DS et 2DS, avec une attention particulière portée aux performances des modèles Old 3DS.
+Shield Theme Maker est une application homebrew qui permet de créer facilement des thèmes personnalisés pour 3DS et 2DS, avec une attention particulière portée aux performances des modèles Old 3DS.
 
 Le principe est simple : choisissez une image pour l'écran supérieur, une autre pour l'écran inférieur et, si vous le souhaitez, ajoutez votre musique préférée.
 
