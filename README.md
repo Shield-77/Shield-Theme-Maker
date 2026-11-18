@@ -9,7 +9,7 @@ Shield Theme Maker est une application homebrew qui permet de créer facilement 
 
 Le principe est simple : choisissez une image pour l'écran supérieur, une autre pour l'écran inférieur et, si vous le souhaitez, ajoutez votre musique préférée.
 
-Pas besoin de préparer les images sur ordinateur, de comprendre les formats des thèmes Nintendo ou de convertir manuellement vos musiques en BCSTM. L'application s'occupe de la partie technique directement sur votre console.
+Pas besoin de préparer les images sur ordinateur, de comprendre les formats des thèmes 3ds ou de convertir manuellement vos musiques en BCSTM. L'application s'occupe de la partie technique directement sur votre console.
 
 Vous gardez également le contrôle sur le résultat : cadrage des images, zoom, choix de l'icône, passage musical, qualité audio et transition de boucle.
 
