@@ -1,64 +1,318 @@
-# Shield Theme Maker
+Shield Theme Maker
 
 **Codex was used to generate the code**
 
-Créez un thème directement sur votre **3DS**, sans ordinateur : choisissez une image pour l’écran supérieur, une autre pour l’écran inférieur et, si vous le souhaitez, une musique. L’application est conçue avec une attention particulière aux ressources des modèles Old 3DS. Codex a aidé à générer le code.
 
-exemple de thèmes que j'ai réalisé à partir d'images provenant de Pinterest, ces thèmes sont personnels, ils n'ont été partagé nulle part, les droits d'auteur vont au artiste respectifs, je ne suis pas l'auteur de ces magnifiques images :
+Créez vos propres thèmes Nintendo 3DS directement sur votre console, sans ordinateur !
 
+Shield Theme Maker est une application homebrew qui permet de créer facilement des thèmes personnalisés pour Nintendo 3DS et 2DS, avec une attention particulière portée aux performances des modèles Old 3DS.
 
-<img width="997" height="1396" alt="1000245467" src="https://github.com/user-attachments/assets/b244eb11-e0ec-4958-aa7a-1eaaabfc365e" />
+Le principe est simple : choisissez une image pour l'écran supérieur, une autre pour l'écran inférieur et, si vous le souhaitez, ajoutez votre musique préférée.
 
-Je ne suis pas affilé à ameone mais les thèmes ne peuvent être appliquées que par une application comme ameone, concernant les preview, les preview png sont fonctionnels et audio aussi mais la dernière version d'ameone as son moteur audio cassé (uniquement en preview).
+Pas besoin de préparer les images sur ordinateur, de comprendre les formats des thèmes Nintendo ou de convertir manuellement vos musiques en BCSTM. L'application s'occupe de la partie technique directement sur votre console.
 
-Il existe des projets qui on repris ameone et l'on énormément amélioré mais ils sont vibecoded, je ne suis pas contre mais je sais que beaucoup de gens n'aiment pas les projets vibecoded et surtout quand ils touchent à ce qui peut corrompre des données et brick temporaire la console,
-car si un theme est mal appliqué le menu home peut soit ne pas afficher le fond d'écran et tout va bien soit juste ne plus boot jusqu'à ce que le dossier de extdata concernant les thèmes soit supprimé, enfin bref.
+Vous gardez également le contrôle sur le résultat : cadrage des images, zoom, choix de l'icône, passage musical, qualité audio et transition de boucle.
 
-Votre vie vos choix pas les miens, profitez bien !
+Une fois terminé, votre thème est automatiquement exporté dans le bon dossier de la carte SD, prêt à être utilisé avec Anemone3DS.
 
-**Version actuelle : [v0.2.11](https://github.com/Shield-77/Shield-Theme-Maker/releases/tag/v0.2.11)** · [Télécharger le CIA](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/shield_theme_maker.cia) · [Parcourir le code](source/) · [Archive source](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip)
+Codex a été utilisé pour générer le code. J'ai participé à la conception de l'application, au choix des fonctionnalités, aux tests sur console et aux corrections apportées au fil du développement.
 
+Le but est simplement de rendre la création de thèmes 3DS accessible au plus grand nombre, même aux personnes qui n'y connaissent rien.
 
+Quelques exemples de mes créations
 
-<img width="1080" height="1440" alt="1000245457" src="https://github.com/user-attachments/assets/4c805811-56fd-41cb-a0cf-9ab95b54454c" />
+Voici quelques thèmes que j'ai personnellement réalisés avec Shield Theme Maker, directement sur ma Old 3DS.
 
+Les images utilisées proviennent de Pinterest. Je précise que ces thèmes sont des créations personnelles et que je n'ai pas distribué leurs archives.
 
+Les illustrations appartiennent à leurs artistes respectifs. Je ne suis pas l'auteur de ces magnifiques images et je ne revendique aucun droit dessus.
 
+<img width="440" alt="Exemples de thèmes créés avec Shield Theme Maker" src="https://github.com/user-attachments/assets/b244eb11-e0ec-4958-aa7a-1eaaabfc365e" />Tous ces thèmes ont été testés plusieurs fois sur ma console. Les images sont correctement cadrées, les icônes sont reconnues par Anemone3DS et les musiques fonctionnent, y compris leurs boucles.
 
-## Créer un thème
+C'est aussi pour ça que j'ai créé cette application : pouvoir utiliser les images et les musiques que j'aime sans devoir passer des heures à comprendre des outils compliqués sur PC.
 
-1. Confirmez la langue au premier lancement et suivez le guide de huit pages. Il reste accessible avec **SELECT → Guide** ; SELECT donne aussi accès à la langue.
-2. Parcourez la carte SD et choisissez vos deux images. Les dossiers sont présentés d’abord, puis les fichiers du plus récent au plus ancien. **Y** prévisualise une image, **A** la choisit et **B** revient. PNG et JPEG sont pris en charge, jusqu’à 2,4 millions de pixels et 4096 pixels par côté.
-3. Cadrez chaque écran séparément. La **croix directionnelle** déplace l’image, **L/R** règle le zoom, **X** change de mode et **Y** propose un centrage automatique. Les modes sont *Remplir* (couvre l’écran), *Entière* (garde toute l’image) et *Prolonger* (répète les pixels des bords, sans flou). Le cadrage automatique n’empêche pas les réglages manuels.
-4. Ajoutez éventuellement un MP3, un OGG ou un BCSTM. **Y** lance ou arrête la préécoute ; **B** l’arrête aussi. Vous pouvez choisir le passage, la qualité et la transition de boucle. Un thème sans musique reste possible.
-5. Donnez un nom au thème, choisissez son icône, puis exportez un dossier ou un ZIP. Un nom déjà utilisé reçoit un suffixe : le thème existant n’est pas écrasé.
+Télécharger Shield Theme Maker
 
-Les créations sont placées dans `sdmc:/themes/`. Un thème comprend notamment `body_LZ.bin`, `preview.png`, `icon.png` et `info.smdh`, ainsi que `bgm.bcstm` si une musique est ajoutée. Un `bgm.ogg` peut être conservé lorsque l’entrée est un OGG ; importer un MP3 ne produit pas de fichier OGG. Ouvrez ensuite Anemone3DS pour appliquer le thème. Theme Maker ne modifie pas directement les données du menu HOME.
+Version actuelle : "v0.2.11" (https://github.com/Shield-77/Shield-Theme-Maker/releases/tag/v0.2.11)
 
-## Musique : qualité et durée
+- "Télécharger le CIA" (https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/shield_theme_maker.cia)
+- "Parcourir le code source" (source/)
+- "Télécharger l'archive source" (https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip)
 
-La conversion MP3/OGG se fait sur la console en PCM16 stéréo. Une meilleure fréquence réduit la durée maximale du thème. **16 kHz est le réglage par défaut.**
+<img width="440" alt="Shield Theme Maker sur Nintendo 3DS" src="https://github.com/user-attachments/assets/4c805811-56fd-41cb-a0cf-9ab95b54454c" />Comment créer un thème ?
 
-| Fréquence | Durée maximale |
-| --- | --- |
-| 8 kHz | 1 min 45 s |
-| 10 kHz | 1 min 24 s |
-| 12 kHz | 1 min 10 s |
-| 14 kHz | 1 min |
-| 16 kHz | 52 s |
-| 18 kHz | 46 s |
-| 20 kHz | 41 s |
+1. Premier lancement
 
-L’audio a demandé de nombreuses corrections : les premières versions pouvaient produire des thèmes avec musique défectueux. La v0.2.11 vérifie le BCSTM avant l’export et corrige la répétition du début après un fondu. Des essais de thèmes avec musique ont réussi, mais certains fichiers audio peuvent encore poser problème. Si un thème musical échoue, essayez le même thème sans musique et signalez le fichier et le réglage utilisés. Les thèmes sans audio ont aussi reçu de nombreuses corrections de cadrage et de création.
+Au premier démarrage, l'application vous propose de choisir votre langue et affiche un guide de huit pages pour comprendre son fonctionnement.
 
-Les BCSTM importés sont contrôlés et doivent respecter la limite de `0x337000` octets du thème. WAV n’est pas accepté comme musique d’entrée. Les fonds sont statiques ; animations et sons d’interface personnalisés ne sont pas pris en charge.
+Ce guide reste accessible à tout moment dans les options avec SELECT → Guide.
 
-## Installer ou compiler
+Le menu SELECT permet également de modifier la langue.
 
-La release contient `shield_theme_maker.cia`. Si un fichier 3DSX est fourni dans une release, il peut être placé sous `sdmc:/3ds/shield_theme_maker/` pour le Homebrew Launcher. Vérifiez les fichiers disponibles dans la release choisie.
+2. Choisir les images
 
-Pour compiler le code, installez devkitPro/devkitARM et les dépendances indiquées par le Makefile, puis lancez `make`. La création du CIA demande en plus `makerom` et `bannertool` obtenus séparément. Le source public utilise la version CIA interne **1025**.
+Parcourez votre carte SD et sélectionnez une image pour l'écran supérieur, puis une autre pour l'écran inférieur.
 
-## Droits et crédits
+Les images peuvent provenir de n'importe quelle source, à condition d'être dans un format compatible.
 
-Le code propre à Shield Theme Maker est sous [GPLv3](LICENSE). Les composants tiers conservent leurs conditions : [Atkinson Hyperlegible, SIL OFL](LICENSE-AtkinsonHyperlegible.txt), [minimp3, CC0](LICENSE-minimp3.txt), stb_image et les bibliothèques audio de devkitPro. Les images et musiques choisies par chaque utilisateur restent soumises aux droits de leurs auteurs. Le nom et les visuels SHIELD identifient la publication officielle ; présentez clairement toute version modifiée comme telle.
+Formats acceptés :
+
+- PNG
+- JPEG
+
+Les images sont acceptées jusqu'à 2,4 millions de pixels, avec une limite de 4096 pixels par côté.
+
+Les dossiers apparaissent en premier, suivis des fichiers classés du plus récent au plus ancien.
+
+Commandes :
+
+- Haut/Bas : naviguer.
+- Y : prévisualiser une image.
+- A : sélectionner une image.
+- B : revenir en arrière.
+
+Pas besoin de redimensionner manuellement chaque image sur PC avant de commencer.
+
+3. Ajuster le cadrage
+
+C'est une des fonctionnalités que je tenais particulièrement à intégrer.
+
+Toutes les images n'ont pas les mêmes dimensions, et certaines peuvent être mal cadrées lorsqu'elles sont directement utilisées comme fond d'écran.
+
+Shield Theme Maker permet donc d'ajuster séparément les images des deux écrans.
+
+Commandes :
+
+- Croix directionnelle : déplacer l'image.
+- L/R : modifier le zoom.
+- X : changer de mode d'affichage.
+- Y : proposer un centrage automatique.
+
+Trois modes sont disponibles :
+
+- Remplir : l'image remplit entièrement l'écran.
+- Entière : l'image reste entièrement visible.
+- Prolonger : les pixels des bords sont répétés pour remplir l'espace restant, sans ajouter de flou.
+
+Le cadrage automatique est là pour vous faciliter la tâche, mais vous pouvez toujours ajuster manuellement le résultat.
+
+4. Ajouter une musique (facultatif)
+
+Vous pouvez ajouter votre musique préférée directement depuis la carte SD.
+
+Formats acceptés :
+
+- MP3
+- OGG
+- BCSTM
+
+L'application permet de préécouter la musique avant de l'intégrer.
+
+Commandes :
+
+- Y : démarrer ou arrêter la préécoute.
+- B : arrêter également la préécoute.
+
+Vous pouvez ensuite choisir :
+
+- Le passage de la musique que vous souhaitez utiliser.
+- La qualité audio.
+- La transition de boucle.
+
+Par exemple, si vous aimez particulièrement un passage d'une musique, vous pouvez sélectionner cette partie pour l'utiliser dans votre thème.
+
+La transition permet d'obtenir une répétition plus naturelle. Le résultat dépend évidemment du morceau et des réglages choisis.
+
+Et si vous ne voulez pas de musique, aucun problème : les thèmes sans audio sont également pris en charge.
+
+5. Choisir un nom et une icône
+
+Vous pouvez donner un nom personnalisé à votre thème.
+
+Si vous avez la flemme de trouver un nom, vous pouvez également conserver celui généré automatiquement. Personnellement, je reconnais surtout mes thèmes grâce à leurs icônes !
+
+L'application permet justement de choisir l'image utilisée comme icône :
+
+- L'image de l'écran supérieur.
+- L'image de l'écran inférieur.
+
+Cela permet de retrouver plus facilement vos créations dans Anemone3DS.
+
+Si un thème porte déjà le même nom, un suffixe est automatiquement ajouté pour éviter d'écraser le thème existant.
+
+6. Exporter le thème
+
+Une fois votre création terminée, vous pouvez l'exporter sous forme de dossier ou d'archive ZIP.
+
+Les thèmes sont automatiquement enregistrés dans :
+
+"sdmc:/themes/"
+
+Vous n'avez donc pas besoin de déplacer manuellement les fichiers après la création.
+
+Un thème comprend notamment :
+
+- "body_LZ.bin"
+- "preview.png"
+- "icon.png"
+- "info.smdh"
+- "bgm.bcstm" si une musique est ajoutée.
+
+Un fichier "bgm.ogg" peut également être conservé lorsque la musique d'origine est au format OGG.
+
+Si vous importez un MP3, aucun fichier OGG supplémentaire n'est généré.
+
+Le fichier "bgm.bcstm" suffit pour la musique du thème.
+
+Il ne reste ensuite qu'à ouvrir Anemone3DS pour appliquer votre création.
+
+Shield Theme Maker ne modifie pas directement les données du menu HOME.
+
+Musique : qualité et durée
+
+La conversion des fichiers MP3 et OGG est effectuée directement sur la console en PCM16 stéréo.
+
+La 3DS impose certaines limites concernant la taille des musiques utilisées dans les thèmes.
+
+C'est pourquoi Shield Theme Maker propose différentes fréquences d'échantillonnage.
+
+Une fréquence élevée permet de conserver davantage de détails audio, mais réduit la durée maximale du morceau.
+
+À l'inverse, une fréquence plus faible permet d'utiliser un passage plus long, avec une qualité sonore réduite.
+
+La fréquence de 16 kHz est sélectionnée par défaut.
+
+Fréquence| Durée maximale
+8 kHz| 1 min 45 s
+10 kHz| 1 min 24 s
+12 kHz| 1 min 10 s
+14 kHz| 1 min
+16 kHz| 52 s
+18 kHz| 46 s
+20 kHz| 41 s
+
+Personnellement, j'ai obtenu de très bons résultats avec certaines musiques de Splatoon, notamment à 14 et 16 kHz.
+
+La qualité dépend beaucoup du morceau. Certaines musiques supportent mieux une fréquence réduite que d'autres.
+
+Les boucles musicales
+
+La gestion de l'audio a demandé pas mal de corrections pendant le développement.
+
+Les premières versions pouvaient produire des thèmes dont la musique ne fonctionnait pas correctement.
+
+La version v0.2.11 vérifie désormais le fichier BCSTM avant l'exportation et corrige notamment un problème de répétition du début après une transition en fondu.
+
+J'ai personnellement réalisé plusieurs thèmes avec musique et effectué de nombreux tests sur ma Old 3DS.
+
+J'ai notamment réussi à créer des boucles très propres sur certaines musiques, sans coupure audible lors de la répétition.
+
+Cela ne veut pas dire que tous les fichiers audio fonctionneront forcément parfaitement.
+
+Si vous rencontrez un problème, essayez de créer le même thème sans musique pour vérifier si le problème vient de l'audio.
+
+Vous pouvez également signaler le fichier utilisé et les réglages sélectionnés.
+
+Limitations techniques
+
+Les fichiers BCSTM importés sont vérifiés et doivent respecter la limite de "0x337000" octets imposée au thème.
+
+Quelques limitations sont également à connaître :
+
+- Les fichiers WAV ne sont pas acceptés comme musique d'entrée.
+- Les fonds d'écran sont statiques.
+- Les fonds animés ne sont pas pris en charge.
+- Les sons d'interface personnalisés ne sont pas pris en charge.
+
+Les thèmes sans musique ont également bénéficié de nombreuses corrections concernant le cadrage et la génération des fichiers.
+
+À propos d'Anemone3DS
+
+Je précise que je ne suis pas affilié au projet Anemone3DS.
+
+Shield Theme Maker permet de créer les thèmes, mais leur application sur le menu HOME nécessite un outil comme Anemone3DS.
+
+Concernant les aperçus, les fichiers "preview.png" générés par Shield Theme Maker fonctionnent correctement dans mes tests.
+
+Les musiques de mes thèmes fonctionnent également une fois appliquées sur le menu HOME.
+
+En revanche, j'ai rencontré des problèmes avec la préécoute audio dans certaines versions d'Anemone3DS.
+
+Je parle bien de la préécoute dans l'application, pas forcément de la musique du thème une fois installé.
+
+De mon côté, j'utilise une version d'Anemone qui fonctionne correctement pour mes besoins.
+
+Il existe aussi des projets qui ont repris Anemone et y ont apporté différentes améliorations.
+
+Certains utilisent l'IA pour développer une partie de leur code. Personnellement, je ne suis pas contre, puisque j'utilise moi-même Codex pour mes projets.
+
+Mais je sais que certaines personnes n'aiment pas les projets développés de cette manière, surtout lorsqu'ils touchent à des données sensibles de la console.
+
+Et je peux comprendre cette prudence.
+
+Cela dit, utiliser une IA ne signifie pas automatiquement qu'un programme est dangereux. Ce qui compte, c'est aussi la qualité du code, les tests effectués et la manière dont l'application manipule les données.
+
+Je préfère quand même rappeler qu'un thème mal appliqué peut parfois provoquer des problèmes avec le menu HOME.
+
+Dans certains cas, le fond d'écran peut simplement ne pas s'afficher correctement. Dans d'autres, le menu HOME peut rencontrer des problèmes de démarrage jusqu'à ce que les données de thèmes concernées soient corrigées ou supprimées.
+
+Ce n'est pas forcément un brick définitif de la console, mais cela reste un problème à prendre au sérieux.
+
+Je préfère donc prévenir plutôt que de faire comme si aucun risque n'existait.
+
+Votre vie, vos choix, pas les miens. Profitez bien !
+
+Installer ou compiler
+
+La release officielle contient le fichier :
+
+"shield_theme_maker.cia"
+
+Si un fichier 3DSX est fourni dans une release, vous pouvez le placer dans :
+
+"sdmc:/3ds/shield_theme_maker/"
+
+Il pourra alors être utilisé avec le Homebrew Launcher.
+
+Vérifiez les fichiers disponibles dans la release que vous souhaitez télécharger.
+
+Compilation depuis le code source
+
+Pour compiler Shield Theme Maker, installez :
+
+- devkitPro / devkitARM.
+- Les dépendances 3DS indiquées dans le Makefile.
+- "makerom" et "bannertool", à obtenir séparément pour générer un CIA.
+
+La compilation peut être lancée avec :
+
+make
+
+Le code source public utilise la version CIA interne 1025.
+
+Droits et crédits
+
+Le code propre à Shield Theme Maker est distribué sous licence "GNU GPLv3" (LICENSE).
+
+Les composants tiers conservent leurs propres licences :
+
+- "Atkinson Hyperlegible : SIL OFL" (LICENSE-AtkinsonHyperlegible.txt)
+- "minimp3 : CC0" (LICENSE-minimp3.txt)
+- stb_image.
+- Les bibliothèques audio de devkitPro.
+
+Les images, illustrations et musiques utilisées par les utilisateurs restent soumises aux droits de leurs auteurs respectifs.
+
+Le nom SHIELD et son identité visuelle permettent d'identifier les publications officielles de Shield-77.
+
+Si vous modifiez le projet ou créez votre propre version, merci d'indiquer clairement qu'il s'agit d'une version modifiée et de ne pas la présenter comme une publication officielle.
+
+Merci à toutes les personnes qui s'intéressent à mes projets.
+
+SHIELD est un ensemble de projets homebrew gratuits que je développe avec l'aide de Codex, en participant à leur conception et en effectuant les tests directement sur Nintendo 3DS.
+
+Le but est simplement de partager des applications utiles et de continuer à faire vivre ces consoles.
+
+Profitez bien de votre 3DS !
+
+Shield-77
