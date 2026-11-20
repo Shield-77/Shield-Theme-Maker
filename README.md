@@ -24,7 +24,7 @@ Voici quelques thèmes que j'ai personnellement réalisés avec Shield Theme Mak
 
 Les images utilisées proviennent de Pinterest. Je précise que ces thèmes sont des créations personnelles et que je n'ai pas distribué leurs archives.
 
-Les illustrations appartiennent à leurs artistes respectifs. Je ne suis pas l'auteur de ces magnifiques images et je ne revendique aucun droit dessus.
+Les illustrations appartiennent à leurs artistes respectifs. Je ne suis pas l'auteur de ces magnifiques images et je ne revendique aucun droit dessus (en plus simple les deux images ecran du bas et du haut proviennent de pinterest mais le theme a ete realisee par moi meme).
 
 <img width="440" alt="Exemples de thèmes créés avec Shield Theme Maker" src="https://github.com/user-attachments/assets/b244eb11-e0ec-4958-aa7a-1eaaabfc365e" />
 
