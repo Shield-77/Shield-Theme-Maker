@@ -311,6 +311,8 @@ Merci à toutes les personnes qui s'intéressent à mes projets.
 
 SHIELD est un ensemble de projets homebrew gratuits que je développe avec l'aide de Codex, en participant à leur conception et en effectuant les tests directement sur 3DS.
 
+CREDITS, concernant les credits, ils vont etre retravaillé au max, je regrette d avoir oublié de creditee certains projets open sources ect, ce soir heure de paris vendredi, je vais les refaire correctement au maximum.
+
 Le but est simplement de partager des applications utiles et de continuer à faire vivre ces consoles même quand nos moyens sont limitées.
 
 Profitez bien de votre 3DS !
