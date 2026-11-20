@@ -244,7 +244,7 @@ En revanche, j'ai rencontré des problèmes avec la préécoute audio dans certa
 
 Je parle bien de la préécoute dans l'application, pas forcément de la musique du thème une fois installé.
 
-De mon côté, j'utilise une version d'Anemone qui fonctionne correctement pour mes besoins.
+De mon côté, j'utilise une version d'Anemone qui fonctionne correctement pour mes besoins (une verssion custom).
 
 Il existe aussi des projets qui ont repris Anemone et y ont apporté différentes améliorations.
 
