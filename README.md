@@ -1,7 +1,6 @@
-Shield Theme Maker
+# Shield Theme Maker
 
 **Codex was used to generate the code**
-
 
 Créez vos propres thèmes 3DS directement sur votre console, sans ordinateur !
 
@@ -290,28 +289,120 @@ make
 
 Le code source public utilise la version CIA interne 1025.
 
-Droits et crédits
+## Droits et crédits
 
-Le code propre à Shield Theme Maker est distribué sous licence "GNU GPLv3" (LICENSE).
+Le code propre à Shield Theme Maker est distribué sous licence **GNU GPLv3** (`LICENSE`).
 
-Les composants tiers conservent leurs propres licences :
+Les composants tiers conservent leurs propres licences et leurs auteurs respectifs.
 
-- "Atkinson Hyperlegible : SIL OFL" (LICENSE-AtkinsonHyperlegible.txt)
-- "minimp3 : CC0" (LICENSE-minimp3.txt)
-- stb_image.
-- Les bibliothèques audio de devkitPro.
+### Bibliothèques et composants open source
+
+**Atkinson Hyperlegible**
+
+Police conçue par le Braille Institute of America.
+
+- Auteur : Braille Institute of America.
+- Licence : SIL Open Font License 1.1.
+- Licence fournie : `LICENSE-AtkinsonHyperlegible.txt`.
+- Site : https://www.brailleinstitute.org/freefont/
+
+Merci aux créateurs de cette police pour leur travail sur la lisibilité des caractères.
+
+**minimp3**
+
+Décodeur MP3 open source utilisé pour la lecture et le traitement des musiques MP3.
+
+- Projet : lieff/minimp3 et ses contributeurs.
+- Licence : CC0 1.0, domaine public.
+- Licence fournie : `LICENSE-minimp3.txt`.
+- Source : https://github.com/lieff/minimp3
+
+Les fichiers `minimp3.h` et `minimp3_ex.h` sont présents dans le code source.
+
+**stb_image et stb_image_write**
+
+Bibliothèques utilisées pour charger et enregistrer des images.
+
+- Projet : stb.
+- Auteur principal : Sean Barrett, avec les contributeurs du projet.
+- Licence : domaine public ou MIT, selon les conditions proposées par le projet.
+- Source : https://github.com/nothings/stb
+
+Les composants correspondants sont inclus dans le dossier `source/`.
+
+Merci aux auteurs pour ces bibliothèques légères qui permettent de traiter les images sans dépendances inutilement complexes.
+
+**Tremor / libvorbisidec**
+
+Bibliothèque de décodage Ogg Vorbis en virgule fixe, utilisée pour traiter les musiques OGG.
+
+- Projet : Xiph.Org Foundation et contributeurs.
+- Licence : licence de type BSD.
+- Source : https://gitlab.xiph.org/xiph/tremor
+
+Cette bibliothèque est utilisée comme dépendance externe via les portlibs 3DS.
+
+**libogg**
+
+Bibliothèque destinée à la gestion du format conteneur Ogg.
+
+- Projet : Xiph.Org Foundation et contributeurs.
+- Licence : licence de type BSD.
+- Source : https://gitlab.xiph.org/xiph/ogg
+
+Elle est utilisée avec les composants de décodage OGG.
+
+**devkitPro / devkitARM / libctru**
+
+Shield Theme Maker est développé pour Nintendo 3DS avec les outils et bibliothèques de l'environnement devkitPro.
+
+- devkitPro : https://devkitpro.org/
+- Organisation GitHub : https://github.com/devkitPro
+- libctru : bibliothèque système permettant d'accéder aux fonctionnalités de la Nintendo 3DS.
+
+Ces outils restent la propriété de leurs auteurs respectifs et conservent leurs propres conditions de licence.
+
+### Outils et projets complémentaires
+
+**Anemone3DS**
+
+Shield Theme Maker crée les thèmes compatibles avec Anemone3DS, qui permet ensuite de les appliquer au menu HOME.
+
+- Projet : https://github.com/astronautlevel2/Anemone3DS
+
+Je remercie les développeurs et contributeurs d'Anemone3DS pour leur travail.
+
+Je précise que Shield Theme Maker est un projet indépendant. Je ne suis pas affilié à l'équipe d'Anemone3DS et son code n'est pas présenté ici comme une bibliothèque intégrée.
+
+**Codex / OpenAI**
+
+Codex a été utilisé pour générer le code de Shield Theme Maker.
+
+J'ai participé à la conception de l'application, au choix des fonctionnalités, aux tests sur console et aux corrections apportées au fil du développement.
+
+Je préfère être transparent concernant l'utilisation de l'intelligence artificielle dans mes projets.
+
+### Illustrations, musiques et autres ressources
 
 Les images, illustrations et musiques utilisées par les utilisateurs restent soumises aux droits de leurs auteurs respectifs.
+
+Les créations personnelles présentées dans ce README utilisent notamment des illustrations trouvées sur Pinterest. Elles ne sont pas redistribuées sous forme d'archives de thèmes.
+
+Je ne revendique aucun droit sur les œuvres appartenant à d'autres artistes.
+
+Les ressources tierces éventuellement ajoutées aux futures versions devront également conserver les crédits et conditions de licence correspondants.
+
+### Licence et identité SHIELD
 
 Le nom SHIELD et son identité visuelle permettent d'identifier les publications officielles de Shield-77.
 
 Si vous modifiez le projet ou créez votre propre version, merci d'indiquer clairement qu'il s'agit d'une version modifiée et de ne pas la présenter comme une publication officielle.
 
+Les licences des bibliothèques et autres composants tiers doivent également être respectées lors de toute redistribution.
+
 Merci à toutes les personnes qui s'intéressent à mes projets.
 
 SHIELD est un ensemble de projets homebrew gratuits que je développe avec l'aide de Codex, en participant à leur conception et en effectuant les tests directement sur 3DS.
-
-CREDITS, concernant les credits, ils vont etre retravaillé au max, je regrette d avoir oublié de creditee certains projets open sources ect, ce soir heure de paris vendredi, je vais les refaire correctement au maximum.
 
 Le but est simplement de partager des applications utiles et de continuer à faire vivre ces consoles même quand nos moyens sont limitées.
 
