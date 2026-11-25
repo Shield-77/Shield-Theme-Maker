@@ -206,7 +206,7 @@ La gestion de l'audio a demandé pas mal de corrections pendant le développemen
 
 Les premières versions pouvaient produire des thèmes dont la musique ne fonctionnait pas correctement.
 
-La version v0.2.11 vérifie désormais le fichier BCSTM avant l'exportation et corrige notamment un problème de répétition du début après une transition en fondu.
+La version actuelle v0.3.5 permet de régler le pitch et la vitesse sans déplacer les bornes de boucle, de régler ces bornes avec deux barres tactiles et d’afficher séparément la fin réellement jouée. La version v0.2.11 avait introduit la vérification du fichier BCSTM avant l’exportation et corrigé notamment un problème de répétition du début après une transition en fondu.
 
 J'ai personnellement réalisé plusieurs thèmes avec musique et effectué de nombreux tests sur ma Old 3DS.
 
