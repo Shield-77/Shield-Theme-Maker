@@ -1,6 +1,12 @@
 # Shield Theme Maker
 
-**Codex was used to generate the code**
+## Télécharger / Download
+
+**[shield_theme_maker.cia (v0.3.5)](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.3.5/shield_theme_maker.cia)** · [Toutes les releases](https://github.com/Shield-77/Shield-Theme-Maker/releases)
+
+Sur une 3DS modifiée, ouvrir FBI > Remote Install > Scan QR Code.
+
+<img src="docs/cia-qr.svg" width="220" alt="QR code FBI vers le CIA v0.3.5" />
 
 Créez vos propres thèmes 3DS directement sur votre console, sans ordinateur !
 
@@ -429,3 +435,7 @@ Le but est simplement de partager des applications utiles et de continuer à fai
 Profitez bien de votre 3DS !
 
 Shield-77
+
+## Développement
+
+Le code a été généré avec l'aide d'OpenAI Codex, un assistant de programmation par IA. SHIELD-77 conçoit les fonctionnalités et teste les applications sur console lorsque possible.
