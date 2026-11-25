@@ -34,11 +34,12 @@ C'est aussi pour ça que j'ai créé cette application : pouvoir utiliser les im
 
 ## Télécharger Shield Theme Maker
 
-Version actuelle : [v0.2.11](https://github.com/Shield-77/Shield-Theme-Maker/releases/tag/v0.2.11)
+Version actuelle : [v0.3.5](https://github.com/Shield-77/Shield-Theme-Maker/releases/tag/v0.3.5)
 
-- [Télécharger le CIA](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/shield_theme_maker.cia)
+- [Télécharger le CIA](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.3.5/shield_theme_maker.cia)
+- [Télécharger le 3DSX](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.3.5/shield_theme_maker.3dsx)
 - [Parcourir le code source](source/)
-- [Télécharger l'archive source](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip)
+- [Télécharger l'archive source v0.2.11](https://github.com/Shield-77/Shield-Theme-Maker/releases/download/v0.2.11/Shield-Theme-Maker-v0.2.11-source.zip)
 
 <img width="440" alt="Shield Theme Maker sur 3DS" src="https://github.com/user-attachments/assets/4c805811-56fd-41cb-a0cf-9ab95b54454c" />
 
